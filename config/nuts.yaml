@@ -1,0 +1,9 @@
+strictmode: false
+url: http://localhost:8080
+didmethods:
+  - web
+http:
+  internal:
+    address: ":8081"
+datadir: /nuts/data
+verbosity: debug
