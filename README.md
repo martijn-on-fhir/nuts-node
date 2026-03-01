@@ -68,7 +68,7 @@ ORG_NAME="My Hospital" ORG_CITY="Rotterdam" docker compose --profile init up ini
 curl http://localhost:8081/internal/vdr/v2/subject
 
 # Search discovery — should return the registered organization
-curl "http://localhost:8081/internal/discovery/v1/local-dev?organization_name=*"
+curl http://localhost:8081/internal/discovery/v1/local-dev
 ```
 
 ## APIs

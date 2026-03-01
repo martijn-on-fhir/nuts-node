@@ -48,14 +48,20 @@ CREDENTIAL=$(curl -sf -X POST "${NUTS_INTERNAL}/internal/vcr/v2/issuer/vc" \
         \"city\": \"${ORG_CITY}\"
       }
     },
-    \"visibility\": \"public\",
     \"withStatusList2021Revocation\": false
   }")
 echo "    Credential issued."
 
-# Step 4: Register on the local discovery service
+# Step 4: Load credential into the holder's wallet
+echo "==> Loading credential into wallet..."
+curl -sf -X POST "${NUTS_INTERNAL}/internal/vcr/v2/holder/${SUBJECT}/vc" \
+  -H "Content-Type: application/json" \
+  -d "${CREDENTIAL}"
+echo "    Credential loaded into wallet."
+
+# Step 5: Register on the local discovery service
 echo "==> Registering on discovery service 'local-dev'..."
-curl -sf -X POST "${NUTS_INTERNAL}/internal/discovery/v1/local-dev/${DID}" \
+curl -sf -X POST "${NUTS_INTERNAL}/internal/discovery/v1/local-dev/${SUBJECT}" \
   -H "Content-Type: application/json"
 echo ""
 echo "    Registered on discovery service."
