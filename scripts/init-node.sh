@@ -2,9 +2,9 @@
 set -e
 
 NUTS_INTERNAL="http://nuts-node:8081"
-SUBJECT="dev-organization"
-ORG_NAME="${ORG_NAME:-Dev Organization}"
-ORG_CITY="${ORG_CITY:-Amsterdam}"
+SUBJECT="carebeat"
+ORG_NAME="${ORG_NAME:-Carebeat}"
+ORG_CITY="${ORG_CITY:-Ede}"
 
 echo "==> Waiting for Nuts Node to be healthy..."
 until curl -sf "${NUTS_INTERNAL}/health" > /dev/null 2>&1; do

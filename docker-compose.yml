@@ -6,7 +6,7 @@ services:
       - "8080:8080"
       - "8081:8081"
     volumes:
-      - nuts-data:/nuts/data
+      - ./data:/nuts/data
       - ./config:/nuts/config:ro
     healthcheck:
       test: ["CMD", "wget", "--spider", "--quiet", "http://localhost:8081/health"]
@@ -26,5 +26,3 @@ services:
     profiles:
       - init
 
-volumes:
-  nuts-data:
