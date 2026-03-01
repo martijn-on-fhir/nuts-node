@@ -37,6 +37,40 @@ curl http://localhost:8081/health
 curl http://localhost:8081/status/diagnostics
 ```
 
+### First-Time Initialization
+
+After the node is healthy, run the init script to create an organization identity and register it on the local discovery service:
+
+```bash
+docker compose --profile init up init-node
+```
+
+This runs a one-shot container that:
+1. Waits for the Nuts Node to be healthy
+2. Creates a subject (`dev-organization`) with a `did:web` DID
+3. Issues a `NutsOrganizationCredential` (self-issued, with org name and city)
+4. Registers the organization on the `local-dev` discovery service
+
+The script is **idempotent** — it skips subject creation if `dev-organization` already exists.
+
+#### Customizing the Organization
+
+Set environment variables to override the default org name and city:
+
+```bash
+ORG_NAME="My Hospital" ORG_CITY="Rotterdam" docker compose --profile init up init-node
+```
+
+#### Verifying Initialization
+
+```bash
+# List subjects — should show "dev-organization"
+curl http://localhost:8081/internal/vdr/v2/subject
+
+# Search discovery — should return the registered organization
+curl "http://localhost:8081/internal/discovery/v1/local-dev?organization_name=*"
+```
+
 ## APIs
 
 The Nuts Node exposes these internal APIs on port 8081:
@@ -84,10 +118,14 @@ The Nuts Node is configured via `config/nuts.yaml`, mounted read-only into the c
 nuts-node/
 ├── config/
 │   ├── nuts.yaml              # Nuts Node configuration
-│   ├── discovery/             # Discovery service definitions
-│   └── policy/                # Policy definitions
+│   ├── discovery/
+│   │   └── local-dev.json     # Discovery service definition
+│   └── policy/
+│       └── local-dev.json     # Policy definition
 ├── docs/
 │   └── documentation.md       # Complete developer reference
+├── scripts/
+│   └── init-node.sh           # Post-startup initialization script
 ├── docker-compose.yml         # Nuts Node container setup
 └── README.md
 ```
@@ -110,13 +148,16 @@ See [`docs/documentation.md`](docs/documentation.md) for the complete developer 
 # Start the Nuts Node
 docker compose up -d
 
+# Initialize the node (first-time setup)
+docker compose --profile init up init-node
+
 # View Nuts Node logs
 docker compose logs -f
 
 # Stop the Nuts Node
 docker compose down
 
-# Stop and remove all data
+# Stop and remove all data (clean slate)
 docker compose down -v
 ```
 

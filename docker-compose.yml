@@ -1,7 +1,6 @@
 services:
   nuts-node:
     image: nutsfoundation/nuts-node:latest
-    user: root
     ports:
       - "8080:8080"
       - "8081:8081"
@@ -14,6 +13,17 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+
+  init-node:
+    image: curlimages/curl:latest
+    depends_on:
+      nuts-node:
+        condition: service_healthy
+    volumes:
+      - ./scripts:/scripts:ro
+    entrypoint: ["sh", "/scripts/init-node.sh"]
+    profiles:
+      - init
 
 volumes:
   nuts-data:

@@ -1,0 +1,26 @@
+{
+  "local-dev": {
+    "default": {
+      "presentation_definition": {
+        "id": "local-dev-policy",
+        "input_descriptors": [
+          {
+            "id": "NutsOrganizationCredential",
+            "constraints": {
+              "fields": [
+                {
+                  "path": ["$.type"],
+                  "filter": { "type": "string", "const": "NutsOrganizationCredential" }
+                },
+                {
+                  "id": "organization_name",
+                  "path": ["$.credentialSubject.organization.name"]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -3,7 +3,22 @@ url: http://localhost:8080
 didmethods:
   - web
 http:
+  public:
+    address: ":8080"
   internal:
     address: ":8081"
 datadir: /nuts/data
 verbosity: debug
+crypto:
+  storage: fs
+storage:
+  sql:
+    connection: "sqlite:file:/nuts/data/sqlite.db?_pragma=foreign_keys(1)&_pragma=journal_mode(WAL)"
+discovery:
+  definitions:
+    directory: /nuts/config/discovery
+  server:
+    ids:
+      - "local-dev"
+policy:
+  directory: /nuts/config/policy
