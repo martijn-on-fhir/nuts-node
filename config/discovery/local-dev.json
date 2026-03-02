@@ -30,6 +30,21 @@
             }
           ]
         }
+      },
+      {
+        "id": "DiscoveryRegistrationCredential",
+        "constraints": {
+          "fields": [
+            {
+              "id": "auth_server_url",
+              "path": ["$.credentialSubject.authServerURL"]
+            },
+            {
+              "id": "notification_endpoint",
+              "path": ["$.credentialSubject.notification_endpoint"]
+            }
+          ]
+        }
       }
     ]
   }
