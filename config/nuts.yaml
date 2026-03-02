@@ -20,5 +20,7 @@ discovery:
   server:
     ids:
       - "local-dev"
+  client:
+    refreshinterval: 10s
 policy:
   directory: /nuts/config/policy
